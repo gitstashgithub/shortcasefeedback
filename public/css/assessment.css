@@ -1,0 +1,51 @@
+.button-style {
+    margin:4px;
+    width:100%;
+    float:left;
+}
+
+.button-style input {
+    display: none;
+}
+
+.button-style label {
+    float:left;
+    width:100%;
+    margin:4px;
+    background-color: #c0ecff;
+    border-radius:4px;
+    border:1px solid #41a2d0;
+    overflow:auto;
+
+}
+
+.button-style label span {
+    text-align:center;
+    font-size: 32px;
+    padding:13px 0px;
+    display:block;
+}
+
+.button-style label input {
+    position:absolute;
+    top:-20px;
+}
+
+.button-style input:checked + span {
+    background-color:#0099CC;
+    color:#F7F7F7;
+}
+
+input[type=checkbox]{
+    width:20px;
+    height:20px;
+}
+
+.technique label {
+    background-color: #a2ffd9;
+}
+
+.technique input:checked + span {
+    background-color: #0dac96;
+    color:#F7F7F7;
+}
