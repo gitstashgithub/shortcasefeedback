@@ -5,7 +5,7 @@
 }
 
 .button-style input {
-    display: none;
+    visibility: hidden;
 }
 
 .button-style label {
@@ -21,8 +21,8 @@
 
 .button-style label span {
     text-align:center;
-    font-size: 32px;
-    padding:13px 0px;
+    font-size: 20px;
+    padding:10px 0px;
     display:block;
 }
 

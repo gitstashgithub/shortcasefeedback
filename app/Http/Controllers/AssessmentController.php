@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Assessment;
 use App\Examination;
+use App\Item;
+use App\Mail\AssessmentFinished;
 use App\Option;
+use App\Technique;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class AssessmentController extends Controller
 {
@@ -30,7 +35,7 @@ class AssessmentController extends Controller
         $examination = Examination::find($examinationId);
         $options = Option::all();
 
-        $action = array('AssessmentController@store');
+        $action = array('AssessmentController@mail');
 
         return response()
             ->view('assessment.edit',
@@ -97,5 +102,47 @@ class AssessmentController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function mail(Request $request)
+    {
+        $username = $request->get('name');
+        $email = $request->get('email');
+        $itemsValue = $request->get('items');
+        $itemTechniquesValue = $request->get('item-techniques');
+
+        $items = Item::whereIn('id', array_keys($itemsValue))->pluck('name', 'id');
+        $options = Option::all()->pluck('name', 'id');
+        if ($itemTechniquesValue) {
+            $techniques = Technique::whereIn('item_id', array_keys($itemTechniquesValue))->get()->pluck('name', 'id');
+        }
+        $itemOptions = [];
+        foreach ($items as $id => $name) {
+            $itemOptions[$id] = [];
+            $itemOptions[$id]['name'] = $name;
+            $itemOptions[$id]['value'] = $options[$itemsValue[$id]];
+        }
+        if ($itemTechniquesValue) {
+            foreach ($itemTechniquesValue as $itemId => $techniqueValue) {
+                $techniqueNames = [];
+                foreach ($techniqueValue as $technique => $required) {
+                    $techniqueNames[] = $techniques[$technique];
+                }
+                $itemOptions[$itemId]['technique'] = $techniqueNames;
+            }
+        }
+        try {
+            Mail::to($email)
+                ->send(new AssessmentFinished($itemOptions, $username));
+
+            if (count(Mail::failures()) > 0) {
+                return response()->json(['success'=>0]);
+            } else {
+                return response()->json(['success'=>1]);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['success'=>0]);
+        }
+
     }
 }

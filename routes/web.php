@@ -24,3 +24,4 @@ Route::get('/home', 'HomeController@index');
 
 Route::get('/assessments/{examinationId}/create', 'AssessmentController@create');
 Route::post('/assessments', 'AssessmentController@store');
+Route::post('/assessments/mail', 'AssessmentController@mail');
