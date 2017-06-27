@@ -19,10 +19,16 @@
                         @endforeach
                     </ul>
                 @endif
+                @if($item['comments'])
+                    Comments: {{$item['comments']}}
+                @endif
             </li>
 
         @endforeach
     </ul>
+    @if($generalComments)
+    General Comments: {{$generalComments}}
+    @endif
 </div>
 </body>
 </html>

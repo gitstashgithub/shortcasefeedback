@@ -110,6 +110,8 @@ class AssessmentController extends Controller
         $email = $request->get('email');
         $itemsValue = $request->get('items');
         $itemTechniquesValue = $request->get('item-techniques');
+        $itemComments = $request->get('item-comments');
+        $generalComments = $request->get('general-comments');
 
         $items = Item::whereIn('id', array_keys($itemsValue))->pluck('name', 'id');
         $options = Option::all()->pluck('name', 'id');
@@ -121,6 +123,7 @@ class AssessmentController extends Controller
             $itemOptions[$id] = [];
             $itemOptions[$id]['name'] = $name;
             $itemOptions[$id]['value'] = $options[$itemsValue[$id]];
+            $itemOptions[$id]['comments'] = $itemComments[$id];
         }
         if ($itemTechniquesValue) {
             foreach ($itemTechniquesValue as $itemId => $techniqueValue) {
@@ -133,7 +136,7 @@ class AssessmentController extends Controller
         }
         try {
             Mail::to($email)
-                ->send(new AssessmentFinished($itemOptions, $username));
+                ->send(new AssessmentFinished($itemOptions, $username, $generalComments));
 
             if (count(Mail::failures()) > 0) {
                 return response()->json(['success'=>0]);
@@ -141,6 +144,7 @@ class AssessmentController extends Controller
                 return response()->json(['success'=>1]);
             }
         } catch (\Exception $e) {
+            dd($e->getMessage());
             return response()->json(['success'=>0]);
         }
 

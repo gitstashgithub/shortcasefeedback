@@ -13,6 +13,7 @@ class AssessmentFinished extends Mailable
 
     protected $items;
     protected $name;
+    protected $generalComments;
 
 
     /**
@@ -20,10 +21,11 @@ class AssessmentFinished extends Mailable
      *
      * @return void
      */
-    public function __construct($items, $name)
+    public function __construct($items, $name, $generalComments)
     {
         $this->items = $items;
         $this->name = $name;
+        $this->generalComments = $generalComments;
     }
 
     /**
@@ -36,6 +38,7 @@ class AssessmentFinished extends Mailable
         return $this->view('emails.assessments.finished')->with([
             'items' => $this->items,
             'name' => $this->name,
+            'generalComments' => $this->generalComments,
         ]);
     }
 }
