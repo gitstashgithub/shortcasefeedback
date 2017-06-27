@@ -20,7 +20,7 @@
                     </ul>
                 @endif
                 @if($item['comments'])
-                    Comments: {{$item['comments']}}
+                    <br />Comments: {{$item['comments']}}
                 @endif
             </li>
 

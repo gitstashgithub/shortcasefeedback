@@ -49,3 +49,6 @@ input[type=checkbox]{
     background-color: #0dac96;
     color:#F7F7F7;
 }
+.comments {
+    margin: 8px;
+}

@@ -67,16 +67,15 @@
                     @if($item->isLeaf())
                     <div class="row">
                         <div class="col-md-12">
-                            <textarea name="item-comments[{{$item->id}}]" placeholder="Comments"></textarea>
+                            <textarea class="form-control comments" name="item-comments[{{$item->id}}]" placeholder="Comments"></textarea>
                         </div>
                     </div>
                     @endif
                 @endforeach
                 <br>
                 <div class="form-group">
-                    <div class="col-md-12">
-                        <textarea name="general-comments" placeholder="General Comments"></textarea>
-                    </div>
+                    <textarea class="form-control comments" name="general-comments" placeholder="General Comments"></textarea>
+                    <br />
                     <input type="button" id="send-email" class="btn btn-success btn-large" value="Send Email"/>
                     <h2 id="notification"></h2>
                 </div>
